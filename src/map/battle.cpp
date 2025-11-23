@@ -2322,10 +2322,17 @@ int64 battle_addmastery(map_session_data *sd,block_list *target,int64 dmg,int32 
 
 	switch(weapon) {
 		case W_1HSWORD:
+			if((skill = pc_checkskill(sd,FTR_WPN_TRAINING)) > 0)
+				damage += (skill * 4);
+			if((skill = pc_checkskill(sd,SM_SWORD)) > 0)
+				damage += (skill * 4);
+			if((skill = pc_checkskill(sd,GN_TRAINING_SWORD)) > 0)
+				damage += skill * 10;
 #ifdef RENEWAL
 			if((skill = pc_checkskill(sd,AM_AXEMASTERY)) > 0)
 				damage += (skill * 3);
 #endif
+			break;
 		case W_DAGGER:
 			if((skill = pc_checkskill(sd,SM_SWORD)) > 0)
 				damage += (skill * 4);
@@ -3377,6 +3384,10 @@ static bool is_attack_hitting(struct Damage* wd, block_list *src, block_list *ta
 		if( (sd->status.weapon == W_1HSWORD || sd->status.weapon == W_DAGGER) &&
 			(skill = pc_checkskill(sd, GN_TRAINING_SWORD))>0 )
 			hitrate += 3 * skill;
+		
+		if( (sd->status.weapon == W_1HSWORD || sd->status.weapon == W_1HAXE || sd->status.weapon == W_1HSPEAR) &&
+			(skill = pc_checkskill(sd, FTR_WPN_TRAINING))>0 )
+			hitrate += 100 * skill;
 	}
 
 	hitrate = cap_value(hitrate, battle_config.min_hitrate, battle_config.max_hitrate);

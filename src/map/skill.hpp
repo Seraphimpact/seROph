@@ -1526,6 +1526,9 @@ enum e_skill {
 	NPC_GROGGY_ON,
 	NPC_RESET_EFST, //793
 
+	//Custom skills
+	FTR_WPN_TRAINING = 795,
+
 	KN_CHARGEATK = 1001,
 	CR_SHRINK,
 	AS_SONICACCEL,
